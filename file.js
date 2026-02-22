@@ -1,24 +1,28 @@
 const fs = require("fs");
+const os = require("os");
 
-// Synchronous way to create a file and write data into it
-fs.writeFileSync(
-  "./text.text",
-  "hey, this is the file created by nodejs by using file system module",
-);
+// No of threads in the thread pool
+// console.log(os.cpus().length);
 
-// Asynchronous way to create a file and write data into it
-fs.writeFile(
-  "./text2.text",
-  "hey, this is the file created by nodejs by using file system module in asynchronous way",
-  (err) => {
-    if (err) {
-      console.log("error while creating file", err);
-    }
-  },
-);
+// Synchronous way to create a file and write data into it  // Blocking code
+// fs.writeFileSync(
+//   "./text.text",
+//   "hey, this is the file created by nodejs by using file system module",
+// );
 
-const result = fs.readFileSync("test.text", "utf-8");
-console.log(result);
+// Asynchronous way to create a file and write data into it // Non-blocking code
+// fs.writeFile(
+//   "./text2.text",
+//   "hey, this is the file created by nodejs by using file system module in asynchronous way",
+//   (err) => {
+//     if (err) {
+//       console.log("error while creating file", err);
+//     }
+//   },
+// );
+
+// const result = fs.readFileSync("test.text", "utf-8");
+// console.log(result);
 
 // fs.readFile("test.text", "utf-8", (err, data) => {
 //   if (err) {
@@ -29,23 +33,23 @@ console.log(result);
 // });
 
 // Append data to a file
-fs.appendFileSync("./test.text", new Date().toLocaleString() + "\n");
+// fs.appendFileSync("./test.text", new Date().toLocaleString() + "\n");
 
 // Copy a file
-fs.cpSync("./test.text", "./textCopy.text");
+// fs.cpSync("./test.text", "./textCopy.text");
 
 // Rename a file
-fs.renameSync("./textCopy.text", "./textCopyRenamed.text");
+// fs.renameSync("./textCopy.text", "./textCopyRenamed.text");
 
 // Delete a file
 // fs.unlinkSync("./textCopyRenamed.text");
 
 // Check if a file exists
-if (fs.existsSync("./textCopyRenamed.text")) {
-  console.log("File exists");
-} else {
-  console.log("File does not exist");
-}
+// if (fs.existsSync("./textCopyRenamed.text")) {
+//   console.log("File exists");
+// } else {
+//   console.log("File does not exist");
+// }
 
 // Get the stats of a file
 // const stats = fs.statSync("./text.text");
@@ -62,8 +66,26 @@ if (fs.existsSync("./textCopyRenamed.text")) {
 // }
 
 // Delete a directory
-// fs.rmdirSync("./myDirectory");
+// fs.rmdirSync("./myDirectory");ddd
 
 // Get the list of files in a directory
 // const files = fs.readdirSync("./");
 // console.log(files);
+
+// change the permissions of a file
+// fs.chmodSync("./text.text", 0o777);
+
+// Non-blocking request  //We shold always prefer non-blocking code in nodejs as it will not block the event loop and will allow other requests to be processed while waiting for the file to be read
+fs.readFile("./test.text", "utf-8", (err, data) => {
+  if (err) {
+    console.log("Error: ", err);
+  } else {
+    console.log(data);
+  }
+});
+console.log("This will be printed before the file is read");
+
+// Non-Blocking request
+const data = fs.readFileSync("./test.text", "utf-8");
+console.log(data);
+console.log("This will be printed after the file is read");
