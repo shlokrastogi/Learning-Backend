@@ -48,6 +48,8 @@ app.get("/users", (req, res) => {
 // REST API
 
 app.get("/api/users", (req, res) => {
+  res.setHeader("X-MyName", "Shlok"); // Custom header
+  //Always use X prefix for custom headers to avoid conflicts with standard headers
   return res.json(users);
 });
 
